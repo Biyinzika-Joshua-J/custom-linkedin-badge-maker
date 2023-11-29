@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
-import { ThemeMenuItems } from "@/constants/NavbarItems";
+import { ThemeMenuItems } from "@/constants/constants";
 import { useTheme } from "@/context/ThemeProvider";
 
 export function ThemeDropdownMenu() {
