@@ -1,6 +1,8 @@
 import multer from 'multer';
 import { NextResponse } from 'next/server';
 import util from 'util';
+import { writeFile } from 'fs/promises';
+import path from 'path';
 
 const storage = multer.diskStorage({
   destination: './public/uploads/', // Set the destination folder
@@ -38,12 +40,24 @@ export async function POST(req:Request) {
       console.log(uploadRes)
       const formData = await req.formData();
       const file = formData.get("file");
-      console.log(file)
+      if (!file) {
+        return NextResponse.json({ error: "No file image received." }, { status: 400 });
+      }
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const filename = Date.now() + file.name.replaceAll(" ", "_");
+      try {
+        await writeFile(
+          path.join(process.cwd(), "public/uploads/" + filename),
+          buffer
+        );
+        return NextResponse.json({ Message: "Success", status: 201 });
+      } catch (error) {
+        console.log("Error occured ", error);
+        return NextResponse.json({ Message: "Failed", status: 500 });
+      }
 
       //return NextResponse.json({ message: 'File uploaded successfully' })
-      return new Response('File uploaded successfully', {
-        status: 200
-      })
+      //return new Response('File uploaded successfully', {status: 200})
     } catch (error) {
       return new Response('Error uploading file', {
         status: 500
