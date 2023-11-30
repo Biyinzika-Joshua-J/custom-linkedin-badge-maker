@@ -6,30 +6,32 @@ import axios from "axios";
 // styles dropzone
 import { baseStyle, acceptStyle, focusedStyle, rejectStyle } from "./styles";
 
-
 const FileUpload = () => {
-
- const imageFileHandler = (e:any) =>{
-    console.log('calling image')
+  const [selectedImage, setSelectedImage] = useState(null);
+  const imageFileHandler = (e: any) => {
+    console.log("calling image");
     console.log(e.target.files[0]);
- }
+  };
 
   const onDrop = useCallback((acceptedFiles: any) => {
-    // Do something with the files
     console.log(acceptedFiles);
-    if (acceptedFiles.length != 0){
-        axios.post('/api/upload', acceptedFiles[0])
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-    }else{
-        alert("Can only accept one file and less than 2mbs")
+    if (acceptedFiles.length != 0) {
+        const formData = new FormData();
+        acceptedFiles.forEach((image:any) => {
+            formData.append("file", image);
+        })
+      setSelectedImage(acceptedFiles[0]);
+      axios
+        .post("/api/upload", formData)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      alert("Can only accept one file and less than 2mbs");
     }
-
-
   }, []);
 
   const {
@@ -49,10 +51,10 @@ const FileUpload = () => {
       "image/jpg": [".jpg"],
       "image/jpeg": [".jpeg"],
     },
-    maxFiles:1,
-    noClick:true,
-    noKeyboard:true,
-    maxSize:2097152,
+    maxFiles: 1,
+    noClick: true,
+    noKeyboard: true,
+    maxSize: 2097152,
   });
 
   const style = useMemo(
@@ -68,9 +70,11 @@ const FileUpload = () => {
   return (
     <div className="mx-auto w-[50%]">
       <div {...getRootProps({ style })}>
-        <input {...getInputProps({
-        onChange: imageFileHandler,
-    })} />
+        <input
+          {...getInputProps({
+            onChange: imageFileHandler,
+          })}
+        />
         {isDragActive ? (
           <p>Drop image here!</p>
         ) : (
