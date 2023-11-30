@@ -1,40 +1,17 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import React, { useCallback, useState, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
-
 // styles dropzone
-const baseStyle = {
-  flex: 1,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  padding: "20px",
-  borderWidth: 2,
-  borderRadius: 2,
-  borderColor: "#eeeeee",
-  borderStyle: "dashed",
-  backgroundColor: "#fafafa",
-  color: "#bdbdbd",
-  outline: "none",
-  transition: "border .24s ease-in-out",
-};
+import { baseStyle, acceptStyle, focusedStyle, rejectStyle } from "./styles";
 
-const focusedStyle = {
-  borderColor: "#2196f3",
-};
-
-const acceptStyle = {
-  borderColor: "#00e676",
-};
-
-const rejectStyle = {
-  borderColor: "#ff1744",
-};
 
 const FileUpload = () => {
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = useCallback((acceptedFiles: any) => {
     // Do something with the files
+    console.log(acceptedFiles);
   }, []);
+  
   const {
     getRootProps,
     getInputProps,
@@ -63,13 +40,22 @@ const FileUpload = () => {
   );
 
   return (
-    <div>
-      <div {...getRootProps(style)}>
+    <div className="mx-auto w-[50%]">
+      <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
         {isDragActive ? (
-          <p>Drop the files here ...</p>
+          <p>Drop image here!</p>
         ) : (
-          <p>Drag 'n' drop some files here, or click to select files</p>
+          <div className="flex flex-col items-center">
+            <p className="text-3xl text-center pb-4">
+              Upload an image <br /> to add a badge.
+            </p>
+            <Button onClick={() => {}} className="">
+              Upload Image
+            </Button>
+            <p className="py-2 text-center">Or drop a file</p>
+            <p>Max size is 3 mbs</p>
+          </div>
         )}
       </div>
     </div>
