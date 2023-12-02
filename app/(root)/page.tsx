@@ -1,15 +1,16 @@
 import Image from 'next/image'
 import MainCard from '@/components/cards/MainCard'
 import { ExamplesOfCustomBadges } from '@/constants/constants'
-import { Item } from '@radix-ui/react-dropdown-menu'
 import FileUpload from '@/components/upload/FileUpload/FileUpload'
+import Cropper from '@/components/cropper/Cropper'
 
 export default function Home() {
   return (
     <main className="flex-1">
        <div className="mx-auto lg:w-[80%] my-20">
        <div className="">
-          <FileUpload/>
+         {/* <FileUpload/> */}
+          <Cropper/>
         </div>
 
         {/*TODO: When a user is logined - show there previous profile pics instead*/}

@@ -57,7 +57,7 @@ const FileUpload = () => {
     maxSize: 2097152,
   });
 
-  const style = useMemo(
+  const style:any = useMemo(
     () => ({
       ...baseStyle,
       ...(isFocused ? focusedStyle : {}),
