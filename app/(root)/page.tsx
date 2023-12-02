@@ -3,6 +3,7 @@ import MainCard from "@/components/cards/MainCard";
 import { ExamplesOfCustomBadges } from "@/constants/constants";
 import FileUpload from "@/components/upload/FileUpload/FileUpload";
 import Cropper from "@/components/cropper/Cropper";
+import Editor from "@/components/editor/Editor";
 
 export default function Home() {
   return (
@@ -10,12 +11,15 @@ export default function Home() {
       <div className="mx-auto lg:w-[80%] my-20">
         <div className="">
           {/* <FileUpload/> */}
-          <div className="">
+          {/*<div className="">
             <h2 className="text-center text-3xl font-bold pb-4">Crop your Image</h2>
             <div className="h-96 w-96 relative mx-auto">
               <Cropper />
             </div>
-          </div>
+            </div>*/}
+            <div className="">
+              <Editor/>
+            </div>
         </div>
 
         {/*TODO: When a user is logined - show there previous profile pics instead*/}
