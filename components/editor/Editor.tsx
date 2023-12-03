@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
+import ColorPicker from "../colorPicker/ColorPicker";
 
 const Editor = () => {
   useEffect(() => {
@@ -20,21 +21,35 @@ const Editor = () => {
       // Draw the image onto the canvas
       ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-      // Draw a green box with white text at the bottom left
-      const boxWidth = 200;
-      const boxHeight = 50;
+        // Simulate curved text
       const text = "#opentowork";
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height - 20;
+      const radius = 150;
+      const angleBetweenCharacters = Math.PI / 10; // Adjust as needed
 
-      ctx.fillStyle = "green";
-      ctx.fillRect(0, canvas.height - boxHeight, boxWidth, boxHeight);
-
+      ctx.font = "bold 16px Arial";
       ctx.fillStyle = "white";
-      ctx.font = "16px Arial";
-      ctx.fillText(text, 10, canvas.height - boxHeight + 30);
+      ctx.textAlign = "center";
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const charAngle = -text.length / 2 * angleBetweenCharacters + i * angleBetweenCharacters;
+
+        const textWidth = ctx.measureText(char).width;
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(charAngle);
+        ctx.fillStyle = "red"; // Set background color
+        ctx.fillRect(-textWidth / 2, -radius, textWidth, 20); // Adjust height as needed
+        ctx.fillStyle = "white"; // Set text color
+        ctx.fillText(char, 0, -radius + 16); // Adjust vertical position as needed
+        ctx.restore();
+      }
     };
   }, []);
   return (
-    <div className="mx-auto w-[70%] bg-red-400 h-96">
+    <div className="mx-auto w-[70%]  h-96">
       <div className="grid grid-cols-2">
         <div className="">
           <canvas
@@ -60,6 +75,14 @@ const Editor = () => {
               placeholder="Enter badge text here..."
               onChange={() => {}}
             />
+            </div>
+          </div>
+          <div className="ml-10 mt-6">
+            <div className="">
+              <label htmlFor="badge">Pick Badge Color:</label>
+            </div>
+            <div className="w-full">
+            <ColorPicker />
             </div>
           </div>
         </div>
